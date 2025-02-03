@@ -9,6 +9,9 @@ app.get('/', (req, res) => {
 app.get('/1', (req, res) => {
     res.send('듀...');
 })
+app.get('/2', (req, res) => {
+    res.send('찌이이...');
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
