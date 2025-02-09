@@ -22,7 +22,7 @@ db.connect(err => {
         return;
     }
     console.log('Connected to MySql');
-})
+});
 
 // Insert API
 app.post("/insert", (req, res) => {
