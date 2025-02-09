@@ -26,6 +26,7 @@ db.connect(err => {
 
 // Insert API
 app.post("/insert", (req, res) => {
+    console.log('req.body : ', req.body);
     const { discipline, text } = req.body;
 
     // Validate inputs
