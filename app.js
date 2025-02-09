@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     host:'172.17.0.4',
     user:'root',
     password:'7536',
-    database:'disciplinetacker'
+    database:'disciplinetracker'
 });
 
 db.connect(err => {
