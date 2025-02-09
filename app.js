@@ -61,15 +61,46 @@ app.post("/insert", (req, res) => {
     });
 });
 
-app.get('/discipline', (req, res) => {
-    db.query('SELECT * FROM discipline_run;', (err, results) => {
-        if(err) {
-            res.status(500).send('Database query error, error : ', err);
-            console.log('error : ', err);
-            return;
+app.get('/data/:discipline', async (req, res) => {
+    try {
+        const { discipline } = req.params;
+
+        if (!discipline) {
+        return res.status(400).json({ error: "Discipline is required" });
         }
-        res.json(results);
-    });
+
+        const tableName = `discipline_${discipline.replace(/[^a-zA-Z0-9_]/g, "")}`;
+
+        const today = moment().startOf("day");
+        const startOfYear = today.clone().subtract(364, "days");
+        const dayCounts = Array(365).fill(0);
+
+        const query = `
+        SELECT DATE(date) as date, COUNT(*) as count
+        FROM ?? 
+        WHERE date >= ? AND date < ?
+        GROUP BY DATE(date)
+        `;
+
+        const [rows] = await db.query(query, [
+            tableName,
+            startOfYear.format("YYYY-MM-DD"),
+            today.add(1, "day").format("YYYY-MM-DD"),
+        ]);
+
+        rows.forEach(({ date, count }) => {
+            const dayIndex = moment(date).diff(startOfYear, "days");
+            if (dayIndex >= 0 && dayIndex < 365) {
+                dayCounts[dayIndex] = count;
+            }
+        });
+
+        res.json(dayCounts);
+
+    } catch {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
 
 app.get('/', (req, res) => {
