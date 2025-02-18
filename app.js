@@ -24,6 +24,25 @@ db.connect(err => {
     console.log('Connected to MySql');
 });
 
+// Route to get all tables and their data
+app.get("/all-tables", async (req, res) => {
+    try {
+      const [tables] = await db.promise().query("SHOW TABLES");
+      let results = {};
+  
+      for (let row of tables) {
+        const tableName = row[Object.keys(row)[0]];
+        const [data] = await db.promise().query(`SELECT * FROM \\`${tableName}\``);
+        results[tableName] = data;
+      }
+  
+      res.json(results);
+    } catch (err) {
+      console.error("Error fetching tables: ", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
 // Insert API
 app.post("/insert", (req, res) => {
     console.log('req.body : ', req.body);
