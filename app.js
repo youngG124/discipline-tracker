@@ -31,7 +31,7 @@ app.get("/all-tables", async (req, res) => {
 
       console.log([tables])
   
-      res.json(results);
+      res.json([tables]);
     } catch (err) {
       console.error("Error fetching tables: ", err);
       res.status(500).json({ error: "Internal Server Error" });
