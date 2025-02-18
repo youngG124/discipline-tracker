@@ -28,13 +28,8 @@ db.connect(err => {
 app.get("/all-tables", async (req, res) => {
     try {
       const [tables] = await db.promise().query("SHOW TABLES");
-      let results = {};
-  
-      for (let row of tables) {
-        const tableName = row[Object.keys(row)[0]];
-        const [data] = await db.promise().query(`SELECT * FROM \\`${tableName}\``);
-        results[tableName] = data;
-      }
+
+      console.log([tables])
   
       res.json(results);
     } catch (err) {
