@@ -117,12 +117,8 @@ app.get('/data/:discipline', async (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    res.send('쮜이이...');
-});
-
 app.get('/1', (req, res) => {
-    res.send('듀...');
+    res.send('쮜이이...');
 });
 
 // Sample API Routes
