@@ -16,7 +16,16 @@ const db = mysql.createConnection({
     database:'disciplinetracker'
 });
 
-db.connect(err => {
+// local
+const db2 = mysql.createConnection({
+    host:'localhost',
+    user:'ksy',
+    password:'7536',
+    database:'disciplinetracker',
+    port: 3306
+});
+
+db2.connect(err => {
     if(err) {
         console.error('Could not connect to mysql : ', err)
         return;
